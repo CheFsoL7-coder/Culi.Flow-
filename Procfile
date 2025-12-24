@@ -1,0 +1,1 @@
+web: streamlit run fv_dashboard.py

@@ -1,0 +1,1 @@
+# Admin panel for task/schedule editing
