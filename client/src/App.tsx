@@ -16,6 +16,12 @@ import {
   exportComplianceRecordAsCSV,
   exportEvidencePack,
 } from './services/exports';
+import { exportTasksToCalendar } from './services/calendar';
+import {
+  generateDailyReport,
+  copyDailyReportToClipboard,
+  downloadDailyReportAsHTML,
+} from './services/notifications';
 import { seedSampleData } from './services/seeder';
 import { getAllTasks } from './services/db';
 
@@ -61,6 +67,17 @@ function App() {
     await exportEvidencePack();
   };
 
+  const handleExportCalendar = async () => {
+    await exportTasksToCalendar();
+  };
+
+  const handleGenerateDailyReport = async () => {
+    const report = await generateDailyReport();
+    copyDailyReportToClipboard(report);
+    downloadDailyReportAsHTML(report);
+    alert('Daily report copied to clipboard and downloaded as HTML!');
+  };
+
   return (
     <BrowserRouter>
       <div className="flex h-screen bg-zinc-950 text-white">
@@ -94,6 +111,8 @@ function App() {
           onGenerateDirectorSummary={handleGenerateDirectorSummary}
           onExportCompliance={handleExportCompliance}
           onExportEvidence={handleExportEvidence}
+          onExportCalendar={handleExportCalendar}
+          onGenerateDailyReport={handleGenerateDailyReport}
         />
 
         <QuickAddModal

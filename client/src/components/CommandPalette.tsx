@@ -8,6 +8,7 @@ import {
   Calendar,
   Download,
   Package,
+  Mail,
 } from 'lucide-react';
 
 interface Command {
@@ -25,6 +26,8 @@ interface CommandPaletteProps {
   onGenerateDirectorSummary?: () => void;
   onExportCompliance?: () => void;
   onExportEvidence?: () => void;
+  onExportCalendar?: () => void;
+  onGenerateDailyReport?: () => void;
 }
 
 export function CommandPalette({
@@ -34,6 +37,8 @@ export function CommandPalette({
   onGenerateDirectorSummary,
   onExportCompliance,
   onExportEvidence,
+  onExportCalendar,
+  onGenerateDailyReport,
 }: CommandPaletteProps) {
   const [search, setSearch] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -128,6 +133,26 @@ export function CommandPalette({
         onClose();
       },
       keywords: ['export', 'evidence', 'pack', 'bundle'],
+    },
+    {
+      id: 'export-calendar',
+      label: 'Export tasks to calendar',
+      icon: <Calendar size={18} />,
+      action: () => {
+        onExportCalendar?.();
+        onClose();
+      },
+      keywords: ['export', 'calendar', 'ical', 'ics', 'schedule'],
+    },
+    {
+      id: 'daily-report',
+      label: 'Generate daily report',
+      icon: <Mail size={18} />,
+      action: () => {
+        onGenerateDailyReport?.();
+        onClose();
+      },
+      keywords: ['daily', 'report', 'email', 'summary', 'metrics'],
     },
   ];
 
