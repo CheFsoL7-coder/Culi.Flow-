@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jewelz DaBarber | Master Barber & Mentor</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandDark: '#111111',
+                        brandGray: '#1F1F1F',
+                        brandGold: '#D4AF37', // Luxurious Gold
+                        brandAccent: '#00D4FF', // Electric Cyan for "Future/Youth"
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        header: ['Oswald', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #111111; color: white; }
+        .hero-overlay {
+            background: linear-gradient(to right, rgba(17,17,17, 0.9) 10%, rgba(17,17,17, 0.6) 50%, rgba(17,17,17, 0.4) 100%);
+        }
+        .text-outline-gold {
+            -webkit-text-stroke: 1px #D4AF37;
+            color: transparent;
+        }
+        /* Smooth Scroll */
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="fixed w-full z-50 bg-brandDark/90 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0 flex items-center gap-2">
+                    <i class="fa-solid fa-scissors text-brandGold text-2xl"></i>
+                    <span class="font-header text-2xl tracking-wider text-white">JEWELZ <span class="text-brandGold">DABARBER</span></span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="hover:text-brandGold px-3 py-2 rounded-md text-sm font-medium transition">Home</a>
+                        <a href="#mission" class="hover:text-brandGold px-3 py-2 rounded-md text-sm font-medium transition">The Mission</a>
+                        <a href="#program" class="hover:text-brandAccent px-3 py-2 rounded-md text-sm font-medium transition">Mentorship</a>
+                        <a href="#services" class="bg-brandGold text-brandDark px-5 py-2 rounded-none font-header uppercase tracking-wide hover:bg-white transition">Book Appointment</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="relative h-screen flex items-center">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1503951914875-452162b7f30a?q=80&w=2070&auto=format&fit=crop" alt="Barber Shop" class="w-full h-full object-cover opacity-60">
+            <div class="hero-overlay absolute inset-0"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-20">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-brandGold font-bold tracking-widest uppercase mb-4 text-sm">Est. Minneapolis, MN</h2>
+                    <h1 class="font-header text-6xl md:text-8xl font-bold leading-none mb-6">
+                        CHANGE LIVES<br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brandGold to-white">ONE CUT</span><br>
+                        AT A TIME.
+                    </h1>
+                    <p class="text-gray-300 text-lg mb-8 max-w-md font-light">
+                        More than a barbershop. We are a community hub where style meets substance, and mentorship shapes the future.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#services" class="bg-brandGold text-brandDark px-8 py-4 font-header text-xl uppercase tracking-wide hover:bg-white transition text-center shadow-[0_0_20px_rgba(212,175,55,0.3)]">
+                            Book A Cut
+                        </a>
+                        <a href="#program" class="border border-brandAccent text-brandAccent px-8 py-4 font-header text-xl uppercase tracking-wide hover:bg-brandAccent hover:text-brandDark transition text-center shadow-[0_0_20px_rgba(0,212,255,0.2)]">
+                            Join The Program
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="bg-brandGray border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+                <h3 class="font-header text-4xl text-white">10+</h3>
+                <p class="text-xs text-gray-400 uppercase tracking-widest">Years Experience</p>
+            </div>
+            <div>
+                <h3 class="font-header text-4xl text-white">500+</h3>
+                <p class="text-xs text-gray-400 uppercase tracking-widest">Lives Impacted</p>
+            </div>
+            <div>
+                <h3 class="font-header text-4xl text-white">100%</h3>
+                <p class="text-xs text-gray-400 uppercase tracking-widest">Community Focused</p>
+            </div>
+            <div>
+                <h3 class="font-header text-4xl text-white">4.9</h3>
+                <p class="text-xs text-gray-400 uppercase tracking-widest">Google Rating</p>
+            </div>
+        </div>
+    </div>
+
+    <section id="mission" class="py-24 bg-brandDark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="text-brandAccent font-bold tracking-widest uppercase mb-2 text-sm">The Vision</h2>
+                    <h3 class="font-header text-5xl text-white mb-6">THE BARBERSHOP IS <br>A <span class="text-brandGold">CLASSROOM</span></h3>
+                    <p class="text-gray-400 mb-6 text-lg leading-relaxed">
+                        Jewel Scales' journey began much like the young people this program is designed to serve. Growing up in the community, he understands firsthand the transformative power of a positive mentor.
+                    </p>
+                    <p class="text-gray-400 mb-8 text-lg leading-relaxed">
+                        For over a decade, Scales has honed his craft, observing the barbershop evolve from a place for a haircut into a true community hub. Now, we are using that hub to teach discipline, professionalism, and the confidence that comes with mastering a trade.
+                    </p>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Sig_J_Hancock.png" class="h-12 opacity-50 invert" alt="Signature Placeholder">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <img src="https://images.unsplash.com/photo-1634305886918-192a6c8e3e9d?q=80&w=1000&auto=format&fit=crop" class="rounded-lg object-cover h-64 w-full opacity-80 hover:opacity-100 transition duration-500">
+                    <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?q=80&w=1000&auto=format&fit=crop" class="rounded-lg object-cover h-64 w-full mt-8 opacity-80 hover:opacity-100 transition duration-500">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="program" class="py-24 bg-brandGray relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-brandAccent/5 blur-3xl rounded-full pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-header text-5xl text-white mb-4">THE PROGRAM</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">A proposed community-based initiative providing at-risk youth with mentorship, life skills, and professional training.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-brandDark p-8 rounded-xl border border-white/5 hover:border-brandGold/50 transition duration-300 group">
+                    <div class="h-12 w-12 bg-brandGold/20 rounded-full flex items-center justify-center mb-6 text-brandGold group-hover:bg-brandGold group-hover:text-brandDark transition">
+                        <i class="fa-solid fa-handshake"></i>
+                    </div>
+                    <h3 class="font-header text-2xl text-white mb-3">Mentorship</h3>
+                    <p class="text-gray-400">Creating a safe space where young individuals build self-confidence and find positive role models beyond the streets.</p>
+                </div>
+
+                <div class="bg-brandDark p-8 rounded-xl border border-white/5 hover:border-brandGold/50 transition duration-300 group">
+                    <div class="h-12 w-12 bg-brandGold/20 rounded-full flex items-center justify-center mb-6 text-brandGold group-hover:bg-brandGold group-hover:text-brandDark transition">
+                        <i class="fa-solid fa-scissors"></i>
+                    </div>
+                    <h3 class="font-header text-2xl text-white mb-3">Vocational Training</h3>
+                    <p class="text-gray-400">Teaching the art of barbering not just as a job, but as a craft that opens doors to economic independence.</p>
+                </div>
+
+                <div class="bg-brandDark p-8 rounded-xl border border-white/5 hover:border-brandGold/50 transition duration-300 group">
+                    <div class="h-12 w-12 bg-brandGold/20 rounded-full flex items-center justify-center mb-6 text-brandGold group-hover:bg-brandGold group-hover:text-brandDark transition">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <h3 class="font-header text-2xl text-white mb-3">Professionalism</h3>
+                    <p class="text-gray-400">Customer service, financial literacy, and the discipline required to run a successful business.</p>
+                </div>
+            </div>
+
+            <div class="mt-12 bg-gradient-to-r from-brandDark to-brandGray border border-brandAccent/30 rounded-2xl p-10 flex flex-col md:flex-row items-center justify-between">
+                <div>
+                    <h3 class="font-header text-3xl text-white mb-2">Help Us Shape a Future</h3>
+                    <p class="text-gray-400">Sponsor a student's starter kit or contribute to the training facility.</p>
+                </div>
+                <button class="mt-6 md:mt-0 bg-transparent border-2 border-brandAccent text-brandAccent px-8 py-3 font-header uppercase tracking-wide hover:bg-brandAccent hover:text-brandDark transition">
+                    Make a Donation
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-24 bg-brandDark">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="font-header text-5xl text-white mb-12">BOOK YOUR CUT</h2>
+
+            <div class="bg-white text-black p-8 rounded-lg shadow-2xl">
+                <div class="flex justify-between items-center border-b border-gray-200 pb-4 mb-4">
+                    <h3 class="font-header text-2xl">Service Menu</h3>
+                    <span class="text-sm text-gray-500">Live Schedule</span>
+                </div>
+
+                <div class="flex justify-between items-center py-4 border-b border-gray-100">
+                    <div class="text-left">
+                        <h4 class="font-bold">The Executive Cut</h4>
+                        <p class="text-sm text-gray-500">Precision cut, razor line, hot towel.</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="block font-bold">$50.00</span>
+                        <button class="text-xs bg-black text-white px-3 py-1 mt-1 uppercase">Book</button>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center py-4 border-b border-gray-100">
+                    <div class="text-left">
+                        <h4 class="font-bold">Beard Sculpting</h4>
+                        <p class="text-sm text-gray-500">Shape up, oil treatment, razor finish.</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="block font-bold">$30.00</span>
+                        <button class="text-xs bg-black text-white px-3 py-1 mt-1 uppercase">Book</button>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center py-4">
+                    <div class="text-left">
+                        <h4 class="font-bold">Youth Cut (Under 13)</h4>
+                        <p class="text-sm text-gray-500">Standard cut for the young kings.</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="block font-bold">$35.00</span>
+                        <button class="text-xs bg-black text-white px-3 py-1 mt-1 uppercase">Book</button>
+                    </div>
+                </div>
+
+                <div class="mt-6 text-center">
+                    <p class="text-sm text-gray-400">Powered by Square Appointments</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black py-12 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-6 md:mb-0">
+                <span class="font-header text-2xl tracking-wider text-white">JEWELZ <span class="text-brandGold">DABARBER</span></span>
+                <p class="text-gray-500 text-sm mt-2">2130 East Lake Street, Minneapolis, MN</p>
+            </div>
+            <div class="flex space-x-6">
+                <a href="#" class="text-gray-400 hover:text-brandGold transition"><i class="fa-brands fa-instagram text-xl"></i></a>
+                <a href="#" class="text-gray-400 hover:text-brandGold transition"><i class="fa-brands fa-facebook text-xl"></i></a>
+                <a href="#" class="text-gray-400 hover:text-brandGold transition"><i class="fa-brands fa-tiktok text-xl"></i></a>
+            </div>
+        </div>
+        <div class="text-center mt-8 text-gray-600 text-xs">
+            &copy; 2025 Jewelz DaBarber. All Rights Reserved.
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jewelz DaBarber | Master Barber & Mentor</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandBlack: '#0a0a0a',
+                        brandBlue: '#0f172a', /* Deep Royal Blue from Card */
+                        brandGold: '#C5A059', /* Muted Luxury Gold */
+                        brandWhite: '#F3F4F6',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        header: ['Oswald', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'diamond-pattern': "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C5A059' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #0a0a0a; color: white; }
+        /* Custom Diamond Shape for Images */
+        .clip-diamond {
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        }
+        .text-stroke {
+            -webkit-text-stroke: 1px rgba(255,255,255,0.1);
+            color: transparent;
+        }
+    </style>
+</head>
+<body class="antialiased font-sans bg-brandBlack">
+
+    <nav class="fixed w-full z-50 bg-brandBlack/90 backdrop-blur-md border-b border-brandGold/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-24">
+                <div class="flex-shrink-0 flex items-center gap-3">
+                    <div class="h-10 w-10 border-2 border-brandGold rotate-45 flex items-center justify-center">
+                        <i class="fa-solid fa-scissors -rotate-45 text-brandGold text-sm"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-header text-2xl tracking-widest text-white leading-none">JEWELZ</span>
+                        <span class="font-header text-sm text-brandGold tracking-[0.3em] leading-none">DABARBER</span>
+                    </div>
+                </div>
+
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#about" class="hover:text-brandGold px-3 py-2 text-sm font-medium tracking-wide uppercase transition">The Master Barber</a>
+                        <a href="#gallery" class="hover:text-brandGold px-3 py-2 text-sm font-medium tracking-wide uppercase transition">The Work</a>
+                        <a href="#program" class="hover:text-brandGold px-3 py-2 text-sm font-medium tracking-wide uppercase transition">The Program</a>
+                        <a href="#contact" class="bg-brandGold text-brandBlack px-6 py-2 font-header uppercase font-bold tracking-wider hover:bg-white transition">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="about" class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-brandBlue/40 via-brandBlack to-brandBlack z-0"></div>
+        <div class="absolute inset-0 bg-diamond-pattern z-0"></div>
+
+        <div class="max-w-7xl mx-auto px-4 w-full relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+            <div>
+                <div class="inline-block border border-brandGold/50 px-4 py-1 mb-6">
+                    <span class="text-brandGold uppercase tracking-[0.2em] text-xs font-bold">Est. Minneapolis • Master Barber</span>
+                </div>
+                <h1 class="font-header text-6xl md:text-8xl font-bold leading-none mb-6">
+                    RESPECT <br>
+                    <span class="text-brandGold">EARNED</span> IN<br>
+                    THE CHAIR.
+                </h1>
+                <p class="text-gray-400 text-lg mb-8 max-w-lg leading-relaxed border-l-2 border-brandGold pl-6">
+                    "I've watched the barbershop evolve from a simple place for a haircut into a true community hub. It's where trust is built, crucial conversations happen, and confidence is unlocked."
+                </p>
+                <p class="text-white font-bold mb-8">– Jewel Scales</p>
+
+                <div class="flex gap-4">
+                    <a href="#program" class="bg-white text-black px-8 py-4 font-header uppercase tracking-wide hover:bg-brandGold transition">
+                        Meet The Mentor
+                    </a>
+                    <a href="#gallery" class="px-8 py-4 font-header uppercase tracking-wide text-white border border-white/20 hover:border-brandGold hover:text-brandGold transition">
+                        See The Cuts
+                    </a>
+                </div>
+            </div>
+
+            <div class="relative">
+                <div class="absolute -inset-4 border-2 border-brandGold/20 translate-x-4 translate-y-4 z-0"></div>
+                <img src="assets/images/jewelz-photo.jpg" alt="Jewelz Scales" class="relative z-10 w-full grayscale hover:grayscale-0 transition duration-700 shadow-2xl object-cover" onerror="this.src='https://via.placeholder.com/600x700/111/C5A059?text=Insert+Jewelz+Photo+Here'">
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="py-24 bg-brandBlack relative">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="font-header text-5xl text-white mb-4">THE TRANSFORMATION</h2>
+                <p class="text-gray-400 max-w-xl mx-auto">It's not just a fade. It's the moment they look in the mirror and see a future leader looking back.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="group relative overflow-hidden rounded-lg">
+                    <img src="assets/images/braids-photo.jpg" class="w-full h-[500px] object-cover transition duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100" onerror="this.src='https://via.placeholder.com/400x500/222/fff?text=Braids+Photo'">
+                    <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black to-transparent">
+                        <h3 class="font-header text-2xl text-brandGold">Artistry & Detail</h3>
+                        <p class="text-sm text-gray-300">Intricate braiding and precision line-ups.</p>
+                    </div>
+                </div>
+
+                <div class="group relative overflow-hidden rounded-lg mt-0 md:-mt-8">
+                    <img src="assets/images/waves-photo.jpg" class="w-full h-[500px] object-cover transition duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100" onerror="this.src='https://via.placeholder.com/400x500/222/fff?text=Waves+Photo'">
+                    <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black to-transparent">
+                        <h3 class="font-header text-2xl text-brandGold">Classic Grooming</h3>
+                        <p class="text-sm text-gray-300">Cultivating waves and maintaining texture.</p>
+                    </div>
+                </div>
+
+                <div class="group relative overflow-hidden rounded-lg">
+                    <img src="assets/images/confidence-photo.jpg" class="w-full h-[500px] object-cover transition duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100" onerror="this.src='https://via.placeholder.com/400x500/222/fff?text=Confidence+Photo'">
+                    <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black to-transparent">
+                        <h3 class="font-header text-2xl text-brandGold">Inner Confidence</h3>
+                        <p class="text-sm text-gray-300">Building self-esteem one cut at a time.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="program" class="py-24 bg-brandBlue/10 border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+
+                <div>
+                    <h2 class="font-header text-5xl text-white mb-6">CHANGING LIVES <br>ONE CUT AT A TIME</h2>
+                    <p class="text-gray-400 mb-6 text-lg">
+                        Jewel Scales' mentorship initiative goes beyond the traditional barbershop model. We provide at-risk and underserved youth with mentorship, life skills, and professional training in the art of barbering.
+                    </p>
+
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check text-brandGold mt-1"></i>
+                            <div>
+                                <strong class="text-white block font-header tracking-wide">Vocational Training</strong>
+                                <span class="text-sm text-gray-500">Teaching the technical skills of fading, braiding, and grooming.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check text-brandGold mt-1"></i>
+                            <div>
+                                <strong class="text-white block font-header tracking-wide">Financial Literacy</strong>
+                                <span class="text-sm text-gray-500">How to manage earnings, save, and invest in their own equipment.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check text-brandGold mt-1"></i>
+                            <div>
+                                <strong class="text-white block font-header tracking-wide">Discipline</strong>
+                                <span class="text-sm text-gray-500">The punctuality and respect required to keep a client in your chair for years.</span>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <button class="bg-brandGold text-black px-8 py-3 font-header uppercase font-bold tracking-wider hover:bg-white transition">
+                        Support The Mission
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-brandBlack p-6 border border-white/5 rounded-xl text-center">
+                        <i class="fa-solid fa-graduation-cap text-4xl text-brandGold mb-4"></i>
+                        <h4 class="font-header text-xl">Mentorship</h4>
+                    </div>
+                    <div class="bg-brandBlack p-6 border border-white/5 rounded-xl text-center">
+                        <i class="fa-solid fa-briefcase text-4xl text-brandGold mb-4"></i>
+                        <h4 class="font-header text-xl">Job Skills</h4>
+                    </div>
+                    <div class="bg-brandBlack p-6 border border-white/5 rounded-xl text-center">
+                        <i class="fa-solid fa-users text-4xl text-brandGold mb-4"></i>
+                        <h4 class="font-header text-xl">Community</h4>
+                    </div>
+                    <div class="bg-brandBlack p-6 border border-white/5 rounded-xl text-center">
+                        <i class="fa-solid fa-heart text-4xl text-brandGold mb-4"></i>
+                        <h4 class="font-header text-xl">Safe Space</h4>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="bg-black py-16 border-t-4 border-brandGold">
+        <div class="max-w-4xl mx-auto text-center px-4">
+            <div class="h-16 w-16 border-2 border-brandGold rotate-45 flex items-center justify-center mx-auto mb-8">
+                <i class="fa-solid fa-scissors -rotate-45 text-brandGold text-2xl"></i>
+            </div>
+
+            <h2 class="font-header text-4xl text-white mb-2">JEWELZ DA BARBER</h2>
+            <p class="text-brandGold tracking-widest uppercase text-sm mb-8">Master Barber</p>
+
+            <div class="flex flex-col md:flex-row justify-center gap-8 mb-12">
+                <a href="tel:612-447-3366" class="flex items-center gap-2 text-white hover:text-brandGold transition">
+                    <i class="fa-solid fa-phone text-brandGold"></i> 612-447-3366
+                </a>
+                <a href="https://jewelzdabarber.com" class="flex items-center gap-2 text-white hover:text-brandGold transition">
+                    <i class="fa-solid fa-globe text-brandGold"></i> www.jewelzdabarber.com
+                </a>
+                <a href="#" class="flex items-center gap-2 text-white hover:text-brandGold transition">
+                    <i class="fa-brands fa-instagram text-brandGold"></i> @jewelzdabarber
+                </a>
+            </div>
+
+            <p class="text-gray-600 text-xs">
+                &copy; 2025 Jewelz DaBarber. Changing Lives One Cut At A Time.
+            </p>
+        </div>
+    </section>
+
+</body>
+</html>
