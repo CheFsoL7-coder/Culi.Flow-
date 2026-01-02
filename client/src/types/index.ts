@@ -39,7 +39,13 @@ export type EventAction =
   | 'assigned'
   | 'note_added'
   | 'evidence_added'
-  | 'issue_logged';
+  | 'issue_logged'
+  | 'shift_created'
+  | 'shift_updated'
+  | 'shift_deleted'
+  | 'schedule_published'
+  | 'conflict_detected'
+  | 'conflict_resolved';
 
 export interface EventLog {
   id: string;
@@ -108,4 +114,65 @@ export interface QuickAddInput {
     complianceTags?: ComplianceType[];
     conceptTags?: Concept[];
   };
+}
+
+// V1.2 Workforce Scheduling Types
+
+export type EmployeeRole = 'line-cook' | 'sous-chef' | 'exec-chef' | 'dishwasher';
+
+export type ShiftLocation = 'main-building' | 'loons-nest' | 'oak-terrace';
+
+export type ShiftColor = 'red' | 'blue' | 'yellow' | 'purple';
+
+export type ShiftStatus = 'draft' | 'published' | 'completed';
+
+export type ScheduleStatus = 'draft' | 'published' | 'archived';
+
+export type ConflictType = 'double-booking' | 'overtime' | 'coverage-gap' | 'clopen' | 'cert-mismatch';
+
+export type ConflictSeverity = 'critical' | 'warning' | 'info';
+
+export interface Employee {
+  id: string;
+  name: string;
+  role: EmployeeRole;
+  certifications: string[];
+  maxHoursPerWeek: number;
+  preferredStations: Station[];
+  hireDate: string;
+  active: boolean;
+}
+
+export interface Shift {
+  id: string;
+  employeeId: string;
+  date: string; // ISO date string (YYYY-MM-DD)
+  startTime: string; // HH:mm format
+  endTime: string; // HH:mm format
+  station: Station;
+  location: ShiftLocation;
+  color: ShiftColor;
+  notes?: string;
+  status: ShiftStatus;
+}
+
+export interface Schedule {
+  id: string;
+  weekStartDate: string; // ISO date string (YYYY-MM-DD)
+  weekEndDate: string; // ISO date string (YYYY-MM-DD)
+  shifts: Shift[];
+  publishedAt?: string; // ISO timestamp
+  publishedBy?: string;
+  status: ScheduleStatus;
+  notes?: string;
+}
+
+export interface ConflictAlert {
+  id: string;
+  type: ConflictType;
+  severity: ConflictSeverity;
+  shiftIds: string[];
+  employeeId?: string;
+  message: string;
+  resolvedAt?: string; // ISO timestamp
 }

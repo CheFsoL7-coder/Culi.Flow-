@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Flame, Package, Star, BarChart3 } from 'lucide-react';
+import { Home, Flame, Package, Star, BarChart3, Calendar } from 'lucide-react';
 
 interface NavItem {
   path: string;
@@ -12,6 +12,7 @@ const navItems: NavItem[] = [
   { path: '/service', icon: <Flame size={24} />, label: 'Service' },
   { path: '/production', icon: <Package size={24} />, label: 'Production' },
   { path: '/standards', icon: <Star size={24} />, label: 'Standards' },
+  { path: '/schedule', icon: <Calendar size={24} />, label: 'Schedule' },
   { path: '/analytics', icon: <BarChart3 size={24} />, label: 'Analytics' },
 ];
 
