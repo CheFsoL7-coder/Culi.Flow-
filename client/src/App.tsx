@@ -24,6 +24,7 @@ import {
   downloadDailyReportAsHTML,
 } from './services/notifications';
 import { seedSampleData } from './services/seeder';
+import { seedSchedulingData } from './services/schedulingSeeder';
 import { getAllTasks } from './services/db';
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
         if (tasks.length === 0) {
           console.log('No tasks found, seeding sample data...');
           await seedSampleData();
+          await seedSchedulingData();
         }
       })
       .catch((err) => console.error('Failed to initialize DB:', err));

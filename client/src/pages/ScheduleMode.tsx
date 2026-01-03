@@ -1,8 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Calendar } from 'lucide-react';
-import type { Schedule, Employee, Shift } from '../types';
+import type { Schedule, Employee, Shift, ShiftColor } from '../types';
 import { getAllEmployees, getAllShifts, getScheduleByWeek } from '../services/db';
 import { format, startOfWeek, addDays } from 'date-fns';
+
+// Color mapping for shift badges
+const COLOR_CLASSES: Record<ShiftColor, { bg: string; border: string }> = {
+  red: { bg: 'bg-red-500/20', border: 'border-red-500/40' },
+  blue: { bg: 'bg-blue-500/20', border: 'border-blue-500/40' },
+  yellow: { bg: 'bg-yellow-500/20', border: 'border-yellow-500/40' },
+  purple: { bg: 'bg-purple-500/20', border: 'border-purple-500/40' },
+};
 
 export function ScheduleMode() {
   const [currentWeekStart, setCurrentWeekStart] = useState<string>('');
@@ -174,13 +182,16 @@ export function ScheduleMode() {
                           >
                             {dayShift ? (
                               <div
-                                className={`text-xs p-2 rounded bg-${dayShift.color}-500/20 border border-${dayShift.color}-500/40`}
+                                className={`text-xs p-2 rounded ${COLOR_CLASSES[dayShift.color].bg} border ${COLOR_CLASSES[dayShift.color].border}`}
                               >
                                 <div className="font-medium text-white">
                                   {dayShift.startTime} - {dayShift.endTime}
                                 </div>
-                                <div className="text-gray-400 mt-1">
+                                <div className="text-gray-400 mt-1 text-[10px]">
                                   {dayShift.station}
+                                </div>
+                                <div className="text-gray-500 text-[10px]">
+                                  {dayShift.location}
                                 </div>
                               </div>
                             ) : (
