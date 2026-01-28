@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   Camera,
   ExternalLink,
   Check,
-  X,
   ChevronDown,
   ChevronRight,
   Image,
@@ -16,15 +15,12 @@ import type {
   MenuDay,
   MenuCategory,
   MenuItemCapture,
-  MenuCycleAlbum,
 } from '../types';
 import { MENU_WEEK_CONFIGS, MENU_CATEGORIES } from '../types';
 import {
   getAllAlbums,
   getAlbum,
-  createEmptyAlbum,
   addMenuItem,
-  updateMenuItem,
   setAlbumGooglePhotosLink,
   getCycleStats,
   exportAllAsJSON,
@@ -46,19 +42,21 @@ const WEEKS: MenuWeek[] = [1, 2, 3, 4, 5];
 export function MenuCycleMode() {
   const [selectedWeek, setSelectedWeek] = useState<MenuWeek>(1);
   const [selectedDay, setSelectedDay] = useState<MenuDay>('monday');
-  const [albums, setAlbums] = useState<MenuCycleAlbum[]>([]);
+  const [refreshKey, setRefreshKey] = useState(0);
   const [expandedCategories, setExpandedCategories] = useState<Set<MenuCategory>>(new Set());
   const [editingItem, setEditingItem] = useState<MenuCategory | null>(null);
   const [albumLinkInput, setAlbumLinkInput] = useState('');
   const [showAlbumLinkModal, setShowAlbumLinkModal] = useState(false);
 
-  useEffect(() => {
-    refreshAlbums();
-  }, []);
-
+  // Force re-render when data changes
   const refreshAlbums = () => {
-    setAlbums(getAllAlbums());
+    setRefreshKey((k) => k + 1);
   };
+
+  // Load albums on mount and when refreshKey changes
+  const albums = getAllAlbums();
+  void albums; // Used for cache refresh
+  void refreshKey; // Used for triggering re-renders
 
   const currentAlbum = getAlbum(selectedWeek, selectedDay);
   const weekConfig = MENU_WEEK_CONFIGS[selectedWeek];
@@ -183,7 +181,7 @@ export function MenuCycleMode() {
               style={{
                 backgroundColor: isSelected ? config.color : `${config.color}33`,
                 color: isSelected ? '#fff' : config.color,
-                ringColor: config.color,
+                outlineColor: isSelected ? config.color : undefined,
               }}
             >
               <span className="text-lg">{config.emoji}</span>
