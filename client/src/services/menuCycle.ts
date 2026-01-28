@@ -4,7 +4,6 @@ import type {
   MenuCategory,
   MenuItemCapture,
   MenuCycleAlbum,
-  MENU_WEEK_CONFIGS,
 } from '../types';
 
 const STORAGE_KEY = 'culiflow-menu-cycle';
