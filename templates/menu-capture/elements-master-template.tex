@@ -1,0 +1,221 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[a4paper, top=1.5cm, bottom=1.5cm, left=1.5cm, right=1.5cm]{geometry}
+\usepackage{fontspec}
+\usepackage[english]{babel}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+% ============================================================================
+% CONFIGURATION - EDIT THESE VALUES TO GENERATE DIFFERENT WEEK/DAY FORMS
+% ============================================================================
+
+% Week Number (1-5)
+\newcommand{\WeekNumber}{1}
+
+% Day of Week
+\newcommand{\DayName}{MONDAY}
+
+% Week Colors - Automatically set based on WeekNumber
+% Week 1: Green 🟢 | Week 2: Purple 🟣 | Week 3: Orange 🟠 | Week 4: Blue 🔵 | Week 5: Yellow 🟡
+
+\ifthenelse{\equal{\WeekNumber}{1}}{
+    \definecolor{weekColor}{RGB}{34, 139, 34}        % Green
+    \definecolor{weekColorLight}{RGB}{235, 250, 235}
+    \newcommand{\WeekEmoji}{Green}
+}{}
+\ifthenelse{\equal{\WeekNumber}{2}}{
+    \definecolor{weekColor}{RGB}{128, 0, 128}        % Purple
+    \definecolor{weekColorLight}{RGB}{245, 235, 250}
+    \newcommand{\WeekEmoji}{Purple}
+}{}
+\ifthenelse{\equal{\WeekNumber}{3}}{
+    \definecolor{weekColor}{RGB}{255, 140, 0}        % Orange
+    \definecolor{weekColorLight}{RGB}{255, 245, 235}
+    \newcommand{\WeekEmoji}{Orange}
+}{}
+\ifthenelse{\equal{\WeekNumber}{4}}{
+    \definecolor{weekColor}{RGB}{30, 90, 180}        % Blue
+    \definecolor{weekColorLight}{RGB}{235, 245, 255}
+    \newcommand{\WeekEmoji}{Blue}
+}{}
+\ifthenelse{\equal{\WeekNumber}{5}}{
+    \definecolor{weekColor}{RGB}{218, 165, 32}       % Gold/Yellow
+    \definecolor{weekColorLight}{RGB}{255, 250, 235}
+    \newcommand{\WeekEmoji}{Yellow}
+}{}
+
+% Fallback colors if week not matched
+\providecolor{weekColor}{RGB}{34, 139, 34}
+\providecolor{weekColorLight}{RGB}{235, 250, 235}
+\providecommand{\WeekEmoji}{Green}
+
+\definecolor{darkGray}{RGB}{50, 50, 50}
+
+% ============================================================================
+% FONTS
+% ============================================================================
+\setmainfont{Noto Sans}
+
+% ============================================================================
+% HYPERREF SETUP FOR FORMS
+% ============================================================================
+\hypersetup{
+    pdfauthor={Friendship Village - Elements Program},
+    pdftitle={Elements Week \WeekNumber\ \DayName\ Menu Capture},
+    colorlinks=false,
+    pdfborder={0 0 0}
+}
+
+% ============================================================================
+% PAGE STYLE
+% ============================================================================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textbf{\textcolor{weekColor}{ELEMENTS | WEEK \WeekNumber\ (\WeekEmoji)}}}
+\fancyhead[R]{\textbf{\DayName\ MENU CAPTURE}}
+\fancyfoot[C]{\thepage \ of 10}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{weekColor}\leaders\hrule height \headrulewidth\hfill}}
+
+% ============================================================================
+% MENU PAGE MACRO
+% ============================================================================
+\newcommand{\menuPage}[3]{
+    % #1 = Category Name (e.g., "SOUP DU JOUR")
+    % #2 = Page Number (1-10)
+    % #3 = Emoji indicator for category
+    \newpage
+    \begin{tcolorbox}[colback=white, colframe=weekColor, title={\Large \textbf{#1} #3 \hfill \small (Item #2/10)}, boxrule=2pt, arc=4mm]
+
+        % --- TOP SECTION: DISH DETAILS ---
+        \begin{tabular}{p{0.65\textwidth} p{0.3\textwidth}}
+            \textbf{Dish Name:} & \textbf{Time of Shot:} \\
+            \TextField[name=dishname_w\WeekNumber_#2, width=10cm, height=0.8cm, bordercolor=weekColor, backgroundcolor=weekColorLight]{} &
+            \TextField[name=time_w\WeekNumber_#2, width=4cm, height=0.8cm, bordercolor=weekColor]{} \\[1cm]
+
+            \textbf{Chef / Plated By:} & \textbf{Station:} \\
+            \TextField[name=chef_w\WeekNumber_#2, width=10cm, height=0.8cm, bordercolor=weekColor]{} &
+            \TextField[name=station_w\WeekNumber_#2, width=4cm, height=0.8cm, bordercolor=weekColor]{} \\
+        \end{tabular}
+
+    \end{tcolorbox}
+
+    \vspace{0.5cm}
+
+    % --- PHOTO AREA ---
+    \begin{center}
+        \begin{tcolorbox}[width=16cm, height=11cm, colback=gray!10, colframe=gray!40, valign=center, halign=center, sharp corners]
+            \PushButton[
+                name=photo_w\WeekNumber_#2,
+                onclick={event.target.buttonImportIcon();},
+                width=15cm,
+                height=10cm,
+                bordercolor=gray
+            ]{\textbf{\Huge CLICK TO UPLOAD PHOTO} \\ \vspace{0.5cm} \textit{(Or Paste Physical Photo Here)}}
+        \end{tcolorbox}
+    \end{center}
+
+    \vspace{0.5cm}
+
+    % --- QUALITY CONTROL ---
+    \begin{tcolorbox}[colback=weekColorLight, colframe=weekColor, title=QUALITY CONTROL CHECKLIST]
+        \begin{tabular}{l l l}
+             \CheckBox[name=temp_w\WeekNumber_#2, width=0.5cm, height=0.5cm]{ Temperature Correct?} &
+             \CheckBox[name=rim_w\WeekNumber_#2, width=0.5cm, height=0.5cm]{ Rim Wiped Clean?} &
+             \CheckBox[name=garnish_w\WeekNumber_#2, width=0.5cm, height=0.5cm]{ Fresh Garnish?} \\
+        \end{tabular}
+
+        \vspace{0.5cm}
+
+        \textbf{Critique / Improvements Needed:} \\
+        \TextField[name=notes_w\WeekNumber_#2, width=\linewidth, height=2cm, multiline=true, bordercolor=gray]{}
+    \end{tcolorbox}
+}
+
+% ============================================================================
+% DOCUMENT START
+% ============================================================================
+\begin{document}
+
+% --- COVER PAGE ---
+\thispagestyle{empty}
+\begin{center}
+    \vspace*{3cm}
+    {\Huge \textcolor{weekColor}{\textbf{ELEMENTS DINING PROGRAM}}}
+
+    \vspace{1cm}
+
+    {\LARGE Menu Capture Form}
+
+    \vspace{2cm}
+
+    \begin{tcolorbox}[width=12cm, colback=weekColorLight, colframe=weekColor, arc=8mm, boxrule=3pt]
+        \begin{center}
+            {\Huge \textbf{WEEK \WeekNumber}}
+
+            \vspace{0.5cm}
+
+            {\Large \textbf{\DayName}}
+
+            \vspace{0.5cm}
+
+            {\large \WeekEmoji\ Cycle}
+        \end{center}
+    \end{tcolorbox}
+
+    \vspace{2cm}
+
+    \begin{tabular}{|l|l|}
+        \hline
+        \textbf{Date:} & \TextField[name=form_date, width=6cm, height=0.6cm, bordercolor=weekColor]{} \\
+        \hline
+        \textbf{Shift:} & \TextField[name=form_shift, width=6cm, height=0.6cm, bordercolor=weekColor]{} \\
+        \hline
+        \textbf{Captured By:} & \TextField[name=form_capturer, width=6cm, height=0.6cm, bordercolor=weekColor]{} \\
+        \hline
+    \end{tabular}
+
+    \vspace{2cm}
+
+    {\small \textit{Friendship Village | Standards \& Quality Assurance}}
+\end{center}
+
+% ============================================================================
+% MENU PAGES (10 Items)
+% ============================================================================
+
+% --- PAGE 1: SOUP ---
+\menuPage{SOUP DU JOUR}{1}{|}
+
+% --- PAGE 2: SALAD ---
+\menuPage{MARKET SALAD}{2}{|}
+
+% --- PAGE 3: ENTRÉE 1 ---
+\menuPage{ENTRÉE 1 (Chef's Feature)}{3}{|}
+
+% --- PAGE 4: ENTRÉE 2 ---
+\menuPage{ENTRÉE 2 (Comfort Classic)}{4}{|}
+
+% --- PAGE 5: ENTRÉE 3 ---
+\menuPage{ENTRÉE 3 (Lighter Option)}{5}{|}
+
+% --- PAGE 6: VEGETABLE 1 ---
+\menuPage{VEGETABLE 1 (Primary)}{6}{|}
+
+% --- PAGE 7: VEGETABLE 2 ---
+\menuPage{VEGETABLE 2 (Alternate)}{7}{|}
+
+% --- PAGE 8: STARCH 1 ---
+\menuPage{STARCH 1 (Primary)}{8}{|}
+
+% --- PAGE 9: STARCH 2 ---
+\menuPage{STARCH 2 (Alternate)}{9}{|}
+
+% --- PAGE 10: DESSERT ---
+\menuPage{DESSERT FEATURE}{10}{|}
+
+\end{document}

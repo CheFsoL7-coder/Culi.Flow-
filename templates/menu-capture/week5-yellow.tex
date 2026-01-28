@@ -1,0 +1,116 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[a4paper, top=1.5cm, bottom=1.5cm, left=1.5cm, right=1.5cm]{geometry}
+\usepackage{fontspec}
+\usepackage[english]{babel}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+
+% ============================================================================
+% WEEK 5 - YELLOW/GOLD 🟡
+% ============================================================================
+\newcommand{\WeekNumber}{5}
+\newcommand{\WeekColor}{Gold}
+\definecolor{weekColor}{RGB}{218, 165, 32}
+\definecolor{weekColorLight}{RGB}{255, 250, 235}
+\definecolor{darkGray}{RGB}{50, 50, 50}
+
+% --- Day Configuration (edit this for each day) ---
+\newcommand{\DayName}{MONDAY}
+
+% --- FONTS ---
+\setmainfont{Noto Sans}
+
+% --- HYPERREF ---
+\hypersetup{
+    pdfauthor={Friendship Village - Elements Program},
+    pdftitle={Elements Week 5 (Gold) \DayName\ Menu},
+    colorlinks=false,
+    pdfborder={0 0 0}
+}
+
+% --- PAGE STYLE ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textbf{\textcolor{weekColor}{ELEMENTS | WEEK 5 🟡}}}
+\fancyhead[R]{\textbf{\DayName\ MENU CAPTURE}}
+\fancyfoot[C]{\thepage \ of 10}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{weekColor}\leaders\hrule height \headrulewidth\hfill}}
+
+% --- MENU PAGE MACRO ---
+\newcommand{\menuPage}[3]{
+    \newpage
+    \begin{tcolorbox}[colback=white, colframe=weekColor, title={\Large \textbf{#1} #3 \hfill \small (Item #2/10)}, boxrule=2pt, arc=4mm]
+        \begin{tabular}{p{0.65\textwidth} p{0.3\textwidth}}
+            \textbf{Dish Name:} & \textbf{Time of Shot:} \\
+            \TextField[name=w5_#2_dish, width=10cm, height=0.8cm, bordercolor=weekColor, backgroundcolor=weekColorLight]{} &
+            \TextField[name=w5_#2_time, width=4cm, height=0.8cm, bordercolor=weekColor]{} \\[1cm]
+            \textbf{Chef / Plated By:} & \textbf{Station:} \\
+            \TextField[name=w5_#2_chef, width=10cm, height=0.8cm, bordercolor=weekColor]{} &
+            \TextField[name=w5_#2_station, width=4cm, height=0.8cm, bordercolor=weekColor]{} \\
+        \end{tabular}
+    \end{tcolorbox}
+    \vspace{0.5cm}
+    \begin{center}
+        \begin{tcolorbox}[width=16cm, height=11cm, colback=gray!10, colframe=gray!40, valign=center, halign=center, sharp corners]
+            \PushButton[name=w5_#2_photo, onclick={event.target.buttonImportIcon();}, width=15cm, height=10cm, bordercolor=gray]{\textbf{\Huge CLICK TO UPLOAD PHOTO} \\ \vspace{0.5cm} \textit{(Or Paste Physical Photo Here)}}
+        \end{tcolorbox}
+    \end{center}
+    \vspace{0.5cm}
+    \begin{tcolorbox}[colback=weekColorLight, colframe=weekColor, title=QUALITY CONTROL CHECKLIST]
+        \begin{tabular}{l l l}
+             \CheckBox[name=w5_#2_temp, width=0.5cm, height=0.5cm]{ Temperature Correct?} &
+             \CheckBox[name=w5_#2_rim, width=0.5cm, height=0.5cm]{ Rim Wiped Clean?} &
+             \CheckBox[name=w5_#2_garnish, width=0.5cm, height=0.5cm]{ Fresh Garnish?} \\
+        \end{tabular}
+        \vspace{0.5cm}
+        \textbf{Critique / Improvements Needed:} \\
+        \TextField[name=w5_#2_notes, width=\linewidth, height=2cm, multiline=true, bordercolor=gray]{}
+    \end{tcolorbox}
+}
+
+\begin{document}
+
+% --- COVER ---
+\thispagestyle{empty}
+\begin{center}
+    \vspace*{3cm}
+    {\Huge \textcolor{weekColor}{\textbf{ELEMENTS DINING PROGRAM}}}
+    \vspace{1cm}
+    {\LARGE Menu Capture Form}
+    \vspace{2cm}
+    \begin{tcolorbox}[width=12cm, colback=weekColorLight, colframe=weekColor, arc=8mm, boxrule=3pt]
+        \begin{center}
+            {\Huge \textbf{WEEK 5}} \vspace{0.3cm}
+            {\Large 🟡 Gold Cycle} \vspace{0.5cm}
+            {\Large \textbf{\DayName}}
+        \end{center}
+    \end{tcolorbox}
+    \vspace{2cm}
+    \begin{tabular}{|l|l|}
+        \hline
+        \textbf{Date:} & \TextField[name=w5_date, width=6cm, height=0.6cm, bordercolor=weekColor]{} \\
+        \hline
+        \textbf{Shift:} & \TextField[name=w5_shift, width=6cm, height=0.6cm, bordercolor=weekColor]{} \\
+        \hline
+        \textbf{Captured By:} & \TextField[name=w5_capturer, width=6cm, height=0.6cm, bordercolor=weekColor]{} \\
+        \hline
+    \end{tabular}
+\end{center}
+
+% --- 10 MENU ITEMS ---
+\menuPage{SOUP DU JOUR 🍲}{1}{}
+\menuPage{MARKET SALAD 🥗}{2}{}
+\menuPage{ENTRÉE 1 - Chef's Feature 🥘}{3}{}
+\menuPage{ENTRÉE 2 - Comfort Classic 🧆}{4}{}
+\menuPage{ENTRÉE 3 - Lighter Option 🍱}{5}{}
+\menuPage{VEGETABLE 1 🥕}{6}{}
+\menuPage{VEGETABLE 2 🌽}{7}{}
+\menuPage{STARCH 1 🥔}{8}{}
+\menuPage{STARCH 2 🍚}{9}{}
+\menuPage{DESSERT FEATURE 🍮}{10}{}
+
+\end{document}
