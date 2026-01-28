@@ -1,0 +1,114 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[a4paper, top=1.5cm, bottom=1.5cm, left=1.5cm, right=1.5cm]{geometry}
+\usepackage{fontspec}
+\usepackage[english]{babel}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+
+% --- FONTS ---
+\setmainfont{Noto Sans}
+
+% --- COLORS ---
+\definecolor{elementsGreen}{RGB}{34, 139, 34}
+\definecolor{lightGreen}{RGB}{235, 250, 235}
+\definecolor{darkGray}{RGB}{50, 50, 50}
+
+% --- HYPERREF SETUP FOR FORMS ---
+\hypersetup{
+    pdfauthor={Friendship Village},
+    pdftitle={Elements Week 1 Monday Menu},
+    colorlinks=false,
+    pdfborder={0 0 0} % Hides the red boxes around links
+}
+
+% --- PAGE STYLE ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textbf{\textcolor{elementsGreen}{ELEMENTS | WEEK 1}}}
+\fancyhead[R]{\textbf{MONDAY MENU CAPTURE}}
+\fancyfoot[C]{\thepage \ of 8}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{elementsGreen}\leaders\hrule height \headrulewidth\hfill}}
+
+% --- MACRO FOR MENU PAGES ---
+\newcommand{\menuPage}[2]{
+    \newpage
+    \begin{tcolorbox}[colback=white, colframe=elementsGreen, title={\Large \textbf{#1} \hfill \small (Category #2/8)}, boxrule=2pt, arc=4mm]
+
+        % --- TOP SECTION: DISH DETAILS ---
+        \begin{tabular}{p{0.65\textwidth} p{0.3\textwidth}}
+            \textbf{Dish Name:} & \textbf{Time of Shot:} \\
+            \TextField[name=dishname_#2, width=10cm, height=0.8cm, bordercolor=elementsGreen, backgroundcolor=lightGreen]{} &
+            \TextField[name=time_#2, width=4cm, height=0.8cm, bordercolor=elementsGreen]{} \\[1cm]
+
+            \textbf{Chef / Plated By:} & \textbf{Station:} \\
+            \TextField[name=chef_#2, width=10cm, height=0.8cm, bordercolor=elementsGreen]{} &
+            \TextField[name=station_#2, width=4cm, height=0.8cm, bordercolor=elementsGreen]{} \\
+        \end{tabular}
+
+    \end{tcolorbox}
+
+    \vspace{0.5cm}
+
+    % --- PHOTO AREA (Interactive Button) ---
+    \begin{center}
+        \begin{tcolorbox}[width=16cm, height=12cm, colback=gray!10, colframe=gray!40, valign=center, halign=center, sharp corners]
+            % This button executes JavaScript to import an icon (image) into itself.
+            % Note: Requires Adobe Reader/Acrobat to function fully.
+            \PushButton[
+                name=photo_#2,
+                onclick={event.target.buttonImportIcon();},
+                width=15cm,
+                height=11cm,
+                bordercolor=gray
+            ]{\textbf{\Huge CLICK TO UPLOAD PHOTO} \\ \vspace{0.5cm} \textit{(Or Paste Physical Photo Here)}}
+        \end{tcolorbox}
+    \end{center}
+
+    \vspace{0.5cm}
+
+    % --- FEEDBACK & STANDARDS ---
+    \begin{tcolorbox}[colback=lightGreen, colframe=elementsGreen, title=QUALITY CONTROL CHECKLIST]
+        \begin{tabular}{l l l}
+             \CheckBox[name=temp_#2, width=0.5cm, height=0.5cm]{ Temperature Correct?} &
+             \CheckBox[name=rim_#2, width=0.5cm, height=0.5cm]{ Rim Wiped Clean?} &
+             \CheckBox[name=garnish_#2, width=0.5cm, height=0.5cm]{ Fresh Garnish?} \\
+        \end{tabular}
+
+        \vspace{0.5cm}
+
+        \textbf{Critique / Improvements Needed:} \\
+        \TextField[name=notes_#2, width=\linewidth, height=2.5cm, multiline=true, bordercolor=gray]{}
+    \end{tcolorbox}
+}
+
+\begin{document}
+
+% --- PAGE 1: SOUP ---
+\menuPage{SOUP DU JOUR}{1}
+
+% --- PAGE 2: SALAD ---
+\menuPage{MARKET SALAD}{2}
+
+% --- PAGE 3: ENTREE 1 ---
+\menuPage{ENTRÉE 1 (Chef's Feature)}{3}
+
+% --- PAGE 4: ENTREE 2 ---
+\menuPage{ENTRÉE 2 (Comfort Classic)}{4}
+
+% --- PAGE 5: ENTREE 3 ---
+\menuPage{ENTRÉE 3 (Lighter/Veg Option)}{5}
+
+% --- PAGE 6: VEGETABLE ---
+\menuPage{SEASONAL VEGETABLE}{6}
+
+% --- PAGE 7: STARCH ---
+\menuPage{SIGNATURE STARCH}{7}
+
+% --- PAGE 8: DESSERT ---
+\menuPage{DESSERT FEATURE}{8}
+
+\end{document}

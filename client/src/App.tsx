@@ -8,6 +8,7 @@ import { OpsHome } from './pages/OpsHome';
 import { ServiceMode } from './pages/ServiceMode';
 import { ProductionMode } from './pages/ProductionMode';
 import { StandardsMode } from './pages/StandardsMode';
+import { MenuCycleMode } from './pages/MenuCycleMode';
 import { Analytics } from './pages/Analytics';
 import { initDB } from './services/db';
 import {
@@ -96,6 +97,7 @@ function App() {
               <Route path="/service" element={<ServiceMode />} />
               <Route path="/production" element={<ProductionMode />} />
               <Route path="/standards" element={<StandardsMode />} />
+              <Route path="/menu-cycle" element={<MenuCycleMode />} />
               <Route path="/analytics" element={<Analytics />} />
             </Routes>
           </main>
