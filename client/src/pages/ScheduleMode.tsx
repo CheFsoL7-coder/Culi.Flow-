@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Calendar, X, Search, Filter, Plus, Edit2, Trash2 } from 'lucide-react';
-import type { Schedule, Employee, Shift, ShiftColor, EmployeeRole, ShiftLocation, Station } from '../types';
-import { getAllEmployees, getAllShifts, getScheduleByWeek, createShift, updateShift, deleteShift } from '../services/db';
+import { Calendar, X, Search, Filter, Plus, Edit2, Trash2, AlertTriangle, AlertCircle, Info } from 'lucide-react';
+import type { Schedule, Employee, Shift, ShiftColor, EmployeeRole, ShiftLocation, Station, ConflictAlert } from '../types';
+import { getAllEmployees, getAllShifts, getScheduleByWeek, createShift, updateShift, deleteShift, getActiveConflicts } from '../services/db';
 import { format, startOfWeek, addDays, isToday } from 'date-fns';
 
 // Color mapping for shift badges
@@ -32,6 +32,7 @@ export function ScheduleMode() {
   const [schedule, setSchedule] = useState<Schedule | null>(null);
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [shifts, setShifts] = useState<Shift[]>([]);
+  const [conflicts, setConflicts] = useState<ConflictAlert[]>([]);
   const [selectedShift, setSelectedShift] = useState<Shift | null>(null);
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
 
@@ -75,10 +76,11 @@ export function ScheduleMode() {
   }, []);
 
   async function loadScheduleData(weekStartDate: string) {
-    const [scheduleData, employeeData, shiftData] = await Promise.all([
+    const [scheduleData, employeeData, shiftData, conflictData] = await Promise.all([
       getScheduleByWeek(weekStartDate),
       getAllEmployees(),
       getAllShifts(),
+      getActiveConflicts(),
     ]);
 
     setSchedule(scheduleData || null);
@@ -97,6 +99,13 @@ export function ScheduleMode() {
       (shift) => shift.date >= weekStartDate && shift.date <= weekEnd
     );
     setShifts(weekShifts);
+
+    // Filter conflicts for current week shifts
+    const weekShiftIds = weekShifts.map(s => s.id);
+    const weekConflicts = conflictData.filter(conflict =>
+      conflict.shiftIds.some(id => weekShiftIds.includes(id))
+    );
+    setConflicts(weekConflicts);
   }
 
   function goToPreviousWeek() {
@@ -362,6 +371,41 @@ export function ScheduleMode() {
         </div>
       </div>
 
+      {/* Conflict Alerts */}
+      {conflicts.length > 0 && (
+        <div className="glass-panel p-4 border-l-4 border-red-500">
+          <div className="flex items-start gap-3">
+            <AlertTriangle size={24} className="text-red-400 flex-shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-lg font-semibold text-white">
+                  Scheduling Conflicts ({conflicts.length})
+                </h3>
+              </div>
+              <div className="space-y-2 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-zinc-900">
+                {conflicts.map((conflict) => {
+                  const Icon = conflict.severity === 'critical' ? AlertTriangle : conflict.severity === 'warning' ? AlertCircle : Info;
+                  const colorClass = conflict.severity === 'critical' ? 'text-red-400' : conflict.severity === 'warning' ? 'text-yellow-400' : 'text-blue-400';
+                  const bgClass = conflict.severity === 'critical' ? 'bg-red-500/10' : conflict.severity === 'warning' ? 'bg-yellow-500/10' : 'bg-blue-500/10';
+
+                  return (
+                    <div key={conflict.id} className={`flex items-start gap-2 p-3 rounded ${bgClass}`}>
+                      <Icon size={16} className={`${colorClass} flex-shrink-0 mt-0.5`} />
+                      <div className="flex-1">
+                        <div className="text-sm text-white">{conflict.message}</div>
+                        <div className="text-xs text-gray-400 mt-1">
+                          {conflict.type.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Color Legend */}
       <div className="flex items-center gap-4 flex-wrap">
         <div className="text-sm text-gray-400">Station Colors:</div>
@@ -523,8 +567,14 @@ export function ScheduleMode() {
           </div>
         </div>
         <div className="glass-panel p-4">
-          <div className="text-sm text-gray-400">Coverage Gaps</div>
-          <div className="text-2xl font-bold text-status-watch mt-1">0</div>
+          <div className="text-sm text-gray-400">Active Conflicts</div>
+          <div className={`text-2xl font-bold mt-1 ${
+            conflicts.length === 0 ? 'text-status-good' :
+            conflicts.some(c => c.severity === 'critical') ? 'text-status-risk' :
+            'text-status-watch'
+          }`}>
+            {conflicts.length}
+          </div>
         </div>
       </div>
 

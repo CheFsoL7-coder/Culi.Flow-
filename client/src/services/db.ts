@@ -316,6 +316,13 @@ export async function createShift(shift: Shift): Promise<Shift> {
     actor: 'current-user',
     payload: { shift },
   });
+
+  // Detect and create conflicts
+  const detectedConflicts = await detectConflictsForShift(shift);
+  for (const conflict of detectedConflicts) {
+    await createConflict(conflict);
+  }
+
   return shift;
 }
 
@@ -327,6 +334,21 @@ export async function updateShift(shift: Shift): Promise<Shift> {
     actor: 'current-user',
     payload: { shift },
   });
+
+  // Clear old conflicts involving this shift
+  const allConflicts = await getAllConflicts();
+  for (const conflict of allConflicts) {
+    if (conflict.shiftIds.includes(shift.id) && !conflict.resolvedAt) {
+      await deleteConflict(conflict.id);
+    }
+  }
+
+  // Detect and create new conflicts
+  const detectedConflicts = await detectConflictsForShift(shift);
+  for (const conflict of detectedConflicts) {
+    await createConflict(conflict);
+  }
+
   return shift;
 }
 
@@ -358,6 +380,14 @@ export async function deleteShift(id: string): Promise<void> {
     actor: 'current-user',
     payload: { shiftId: id },
   });
+
+  // Clear conflicts involving this shift
+  const allConflicts = await getAllConflicts();
+  for (const conflict of allConflicts) {
+    if (conflict.shiftIds.includes(id)) {
+      await deleteConflict(conflict.id);
+    }
+  }
 }
 
 // Schedule operations
@@ -414,6 +444,141 @@ export async function getScheduleByWeek(weekStartDate: string): Promise<Schedule
 export async function deleteSchedule(id: string): Promise<void> {
   const db = await initDB();
   await db.delete('schedules', id);
+}
+
+// Conflict detection utilities
+function calculateShiftHours(shift: Shift): number {
+  const start = new Date(`2000-01-01T${shift.startTime}`);
+  const end = new Date(`2000-01-01T${shift.endTime}`);
+  return (end.getTime() - start.getTime()) / (1000 * 60 * 60);
+}
+
+function shiftsOverlap(shift1: Shift, shift2: Shift): boolean {
+  if (shift1.date !== shift2.date) return false;
+
+  const start1 = new Date(`2000-01-01T${shift1.startTime}`);
+  const end1 = new Date(`2000-01-01T${shift1.endTime}`);
+  const start2 = new Date(`2000-01-01T${shift2.startTime}`);
+  const end2 = new Date(`2000-01-01T${shift2.endTime}`);
+
+  return start1 < end2 && start2 < end1;
+}
+
+function getWeekBounds(date: string): { start: string; end: string } {
+  const d = new Date(date);
+  const day = d.getDay();
+  const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Monday
+
+  const monday = new Date(d.setDate(diff));
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
+
+  return {
+    start: monday.toISOString().split('T')[0],
+    end: sunday.toISOString().split('T')[0]
+  };
+}
+
+export async function detectConflictsForShift(shift: Shift): Promise<ConflictAlert[]> {
+  const conflicts: ConflictAlert[] = [];
+
+  // Get employee for max hours check
+  const employee = await getEmployee(shift.employeeId);
+  if (!employee) return conflicts;
+
+  // Get all shifts for this employee
+  const employeeShifts = await getShiftsByEmployee(shift.employeeId);
+
+  // Check for double-booking (overlapping shifts)
+  for (const existingShift of employeeShifts) {
+    if (existingShift.id !== shift.id && shiftsOverlap(shift, existingShift)) {
+      conflicts.push({
+        id: `conflict-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        type: 'double-booking',
+        severity: 'critical',
+        shiftIds: [shift.id, existingShift.id],
+        employeeId: shift.employeeId,
+        message: `${employee.name} has overlapping shifts on ${shift.date}: ${shift.startTime}-${shift.endTime} conflicts with ${existingShift.startTime}-${existingShift.endTime}`,
+      });
+    }
+  }
+
+  // Check for overtime (exceeding max hours per week)
+  const weekBounds = getWeekBounds(shift.date);
+  const weekShifts = employeeShifts.filter(
+    s => s.date >= weekBounds.start && s.date <= weekBounds.end && s.id !== shift.id
+  );
+
+  // Add current shift hours
+  const totalHours = weekShifts.reduce((sum, s) => sum + calculateShiftHours(s), 0) + calculateShiftHours(shift);
+
+  if (totalHours > employee.maxHoursPerWeek) {
+    conflicts.push({
+      id: `conflict-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      type: 'overtime',
+      severity: 'warning',
+      shiftIds: [shift.id],
+      employeeId: shift.employeeId,
+      message: `${employee.name} would exceed max hours (${totalHours.toFixed(1)}h / ${employee.maxHoursPerWeek}h) for week of ${weekBounds.start}`,
+    });
+  }
+
+  // Check for clopen (closing shift followed by opening shift with <8 hours rest)
+  const shiftDate = new Date(shift.date);
+  const nextDay = new Date(shiftDate);
+  nextDay.setDate(nextDay.getDate() + 1);
+  const prevDay = new Date(shiftDate);
+  prevDay.setDate(prevDay.getDate() - 1);
+
+  const nextDayStr = nextDay.toISOString().split('T')[0];
+  const prevDayStr = prevDay.toISOString().split('T')[0];
+
+  // Check if current shift ends late (after 8pm) and next day has early shift (before 10am)
+  const currentEnd = new Date(`2000-01-01T${shift.endTime}`);
+  if (currentEnd.getHours() >= 20) {
+    const nextDayShifts = employeeShifts.filter(s => s.date === nextDayStr);
+    for (const nextShift of nextDayShifts) {
+      const nextStart = new Date(`2000-01-01T${nextShift.startTime}`);
+      if (nextStart.getHours() < 10) {
+        // Calculate hours between shifts
+        const hoursBetween = 24 - currentEnd.getHours() + nextStart.getHours();
+        if (hoursBetween < 8) {
+          conflicts.push({
+            id: `conflict-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+            type: 'clopen',
+            severity: 'warning',
+            shiftIds: [shift.id, nextShift.id],
+            employeeId: shift.employeeId,
+            message: `${employee.name} has insufficient rest between shifts (${hoursBetween}h): ${shift.date} ${shift.endTime} to ${nextShift.date} ${nextShift.startTime}`,
+          });
+        }
+      }
+    }
+  }
+
+  // Check if previous day has late shift
+  const currentStart = new Date(`2000-01-01T${shift.startTime}`);
+  if (currentStart.getHours() < 10) {
+    const prevDayShifts = employeeShifts.filter(s => s.date === prevDayStr);
+    for (const prevShift of prevDayShifts) {
+      const prevEnd = new Date(`2000-01-01T${prevShift.endTime}`);
+      if (prevEnd.getHours() >= 20) {
+        const hoursBetween = 24 - prevEnd.getHours() + currentStart.getHours();
+        if (hoursBetween < 8) {
+          conflicts.push({
+            id: `conflict-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+            type: 'clopen',
+            severity: 'warning',
+            shiftIds: [prevShift.id, shift.id],
+            employeeId: shift.employeeId,
+            message: `${employee.name} has insufficient rest between shifts (${hoursBetween}h): ${prevShift.date} ${prevShift.endTime} to ${shift.date} ${shift.startTime}`,
+          });
+        }
+      }
+    }
+  }
+
+  return conflicts;
 }
 
 // Conflict operations
